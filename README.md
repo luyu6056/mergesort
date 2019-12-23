@@ -17,7 +17,7 @@ sortAny是基于反射复制一个切片，使用传递过来的less进行比较
 | mergesort.SortAny | 130290 ns/op | 24640 B/op | 3 allocs/op |
 | sort.Stable | 100288 ns/op | 24576 B/op | 1 allocs/op |
 
-#Usage SrotAny(interface{}, func(small, big unsafe.Pointer) bool)
+# Usage SrotAny(interface{}, func(small, big unsafe.Pointer) bool)
 
 int asc
 ```go
