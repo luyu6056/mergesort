@@ -1,12 +1,38 @@
 package mergesort
 
 func SortUint(list []uint) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]uint, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] > list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] > list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] > list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -68,22 +94,45 @@ func SortUint(list []uint) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 
 func SortUintDesc(list []uint) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]uint, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] < list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] < list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] < list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -145,21 +194,44 @@ func SortUintDesc(list []uint) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 func SortUint8(list []uint8) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]uint8, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] > list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] > list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] > list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint8, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -221,21 +293,45 @@ func SortUint8(list []uint8) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
-func SortUint8Desc(list []uint8) {
-	var step, l, max, r, r_b, index, n int
-	max_len := len(list)
-	tmp := make([]uint8, max_len)
 
-	step = 1
-	for {
+func SortUintDesc8(list []uint8) {
+	max_len := len(list)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] < list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
+
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] < list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] < list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint8, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -297,21 +393,44 @@ func SortUint8Desc(list []uint8) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 func SortUint16(list []uint16) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]uint16, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] > list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] > list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] > list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint16, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -373,21 +492,45 @@ func SortUint16(list []uint16) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
-func SortUint16Desc(list []uint16) {
-	var step, l, max, r, r_b, index, n int
-	max_len := len(list)
-	tmp := make([]uint16, max_len)
 
-	step = 1
-	for {
+func SortUintDesc16(list []uint16) {
+	max_len := len(list)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] < list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
+
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] < list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] < list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint16, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -449,21 +592,44 @@ func SortUint16Desc(list []uint16) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 func SortUint32(list []uint32) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]uint32, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] > list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] > list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] > list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint32, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -525,21 +691,45 @@ func SortUint32(list []uint32) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
-func SortUint32Desc(list []uint32) {
-	var step, l, max, r, r_b, index, n int
-	max_len := len(list)
-	tmp := make([]uint32, max_len)
 
-	step = 1
-	for {
+func SortUintDesc32(list []uint32) {
+	max_len := len(list)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] < list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
+
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] < list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] < list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint32, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -601,21 +791,44 @@ func SortUint32Desc(list []uint32) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 func SortUint64(list []uint64) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]uint64, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] > list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] > list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] > list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] > list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint64, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -677,21 +890,45 @@ func SortUint64(list []uint64) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
-func SortUint64Desc(list []uint64) {
-	var step, l, max, r, r_b, index, n int
-	max_len := len(list)
-	tmp := make([]uint64, max_len)
 
-	step = 1
-	for {
+func SortUint64Desc(list []uint64) {
+	max_len := len(list)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] < list[i+1] {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
+
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] < list[i+2] {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] < list[i+3] {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] < list[i+2] {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]uint64, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -753,11 +990,8 @@ func SortUint64Desc(list []uint64) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }

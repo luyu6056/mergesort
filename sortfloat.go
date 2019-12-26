@@ -1,12 +1,43 @@
 package mergesort
 
+func isNaN32(f float32) bool {
+	return f != f
+}
+func isNaN64(f float64) bool {
+	return f != f
+}
 func SortFloat32(list []float32) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]float32, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] > list[i+1] || !isNaN32(list[i]) && isNaN32(list[i+1]) {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] > list[i+2] || !isNaN32(list[i]) && isNaN32(list[i+2]) {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] > list[i+3] || !isNaN32(list[i+1]) && isNaN32(list[i+3]) {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] > list[i+2] || !isNaN32(list[i+1]) && isNaN32(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] > list[i+2] || !isNaN32(list[i]) && isNaN32(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] > list[i+2] || !isNaN32(list[i+1]) && isNaN32(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]float32, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -27,7 +58,7 @@ func SortFloat32(list []float32) {
 					case l == r_b:
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r]:
+					case list[l] > list[r] || !isNaN32(list[l]) && isNaN32(list[r]):
 						tmp[index] = list[r]
 						r++
 					default:
@@ -56,7 +87,7 @@ func SortFloat32(list []float32) {
 					case l == r_b:
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r]:
+					case tmp[l] > tmp[r] || !isNaN32(tmp[l]) && isNaN32(tmp[r]):
 						list[index] = tmp[r]
 						r++
 					default:
@@ -68,22 +99,44 @@ func SortFloat32(list []float32) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 
 func SortFloat32Desc(list []float32) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]float32, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] < list[i+1] || isNaN32(list[i]) && !isNaN32(list[i+1]) {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] < list[i+2] || isNaN32(list[i]) && !isNaN32(list[i+2]) {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] < list[i+3] || isNaN32(list[i+1]) && !isNaN32(list[i+3]) {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] < list[i+2] || isNaN32(list[i+1]) && !isNaN32(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] < list[i+2] || isNaN32(list[i]) && !isNaN32(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] < list[i+2] || isNaN32(list[i+1]) && !isNaN32(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]float32, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -104,7 +157,7 @@ func SortFloat32Desc(list []float32) {
 					case l == r_b:
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r]:
+					case list[l] < list[r] || isNaN32(list[l]) && !isNaN32(list[r]):
 						tmp[index] = list[r]
 						r++
 					default:
@@ -133,7 +186,7 @@ func SortFloat32Desc(list []float32) {
 					case l == r_b:
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r]:
+					case tmp[l] < tmp[r] || isNaN32(tmp[l]) && !isNaN32(tmp[r]):
 						list[index] = tmp[r]
 						r++
 					default:
@@ -145,21 +198,43 @@ func SortFloat32Desc(list []float32) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 func SortFloat64(list []float64) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]float64, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] > list[i+1] || !isNaN64(list[i]) && isNaN64(list[i+1]) {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] > list[i+2] || !isNaN64(list[i]) && isNaN64(list[i+2]) {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] > list[i+3] || !isNaN64(list[i+1]) && isNaN64(list[i+3]) {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] > list[i+2] || !isNaN64(list[i+1]) && isNaN64(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] > list[i+2] || !isNaN64(list[i]) && isNaN64(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] > list[i+2] || !isNaN64(list[i+1]) && isNaN64(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]float64, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -180,7 +255,7 @@ func SortFloat64(list []float64) {
 					case l == r_b:
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r]:
+					case list[l] > list[r] || !isNaN64(list[l]) && isNaN64(list[r]):
 						tmp[index] = list[r]
 						r++
 					default:
@@ -209,7 +284,7 @@ func SortFloat64(list []float64) {
 					case l == r_b:
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r]:
+					case tmp[l] > tmp[r] || !isNaN64(tmp[l]) && isNaN64(tmp[r]):
 						list[index] = tmp[r]
 						r++
 					default:
@@ -221,22 +296,44 @@ func SortFloat64(list []float64) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }
 
 func SortFloat64Desc(list []float64) {
-	var step, l, max, r, r_b, index, n int
 	max_len := len(list)
-	tmp := make([]float64, max_len)
+	for i := 0; i < max_len-max_len&1; i += 2 {
+		if list[i] < list[i+1] || isNaN64(list[i]) && !isNaN64(list[i+1]) {
+			list[i], list[i+1] = list[i+1], list[i]
+		}
 
-	step = 1
-	for {
+	}
+	for i := 0; i < max_len-max_len&3; i += 4 {
+		if list[i] < list[i+2] || isNaN64(list[i]) && !isNaN64(list[i+2]) {
+			list[i], list[i+2] = list[i+2], list[i]
+		}
+		if list[i+1] < list[i+3] || isNaN64(list[i+1]) && !isNaN64(list[i+3]) {
+			list[i+1], list[i+3] = list[i+3], list[i+1]
+		}
+		if list[i+1] < list[i+2] || isNaN64(list[i+1]) && !isNaN64(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if list[i] < list[i+2] || isNaN64(list[i]) && !isNaN64(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+			list[i], list[i+1] = list[i+1], list[i]
+		} else if list[i+1] < list[i+2] || isNaN64(list[i+1]) && !isNaN64(list[i+2]) {
+			list[i+1], list[i+2] = list[i+2], list[i+1]
+		}
+	}
+	var step, l, max, r, r_b, index, n int
+	tmp := make([]float64, max_len)
+	step = 4
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -257,7 +354,7 @@ func SortFloat64Desc(list []float64) {
 					case l == r_b:
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r]:
+					case list[l] < list[r] || isNaN64(list[l]) && !isNaN64(list[r]):
 						tmp[index] = list[r]
 						r++
 					default:
@@ -286,7 +383,7 @@ func SortFloat64Desc(list []float64) {
 					case l == r_b:
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r]:
+					case tmp[l] < tmp[r] || isNaN64(tmp[l]) && !isNaN64(tmp[r]):
 						list[index] = tmp[r]
 						r++
 					default:
@@ -298,11 +395,8 @@ func SortFloat64Desc(list []float64) {
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
-				copy(list, tmp)
-			}
-			return
-		}
+	}
+	if n&1 == 1 {
+		copy(list, tmp)
 	}
 }

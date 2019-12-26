@@ -26,8 +26,35 @@ func SortAny(list interface{}, order func(small, big unsafe.Pointer) bool) error
 	tmp := reflect.MakeSlice(t, int(max_len), int(max_len))
 	list_ptr := list_sh.Dataptr
 	tmp_ptr := tmp.Pointer()
+	for i := uintptr(0); i < max_len-max_len&1; i += 2 {
+		if order(unsafe.Pointer(list_ptr+i*size), unsafe.Pointer(list_ptr+(i+1)*size)) {
+			swap(list_ptr+i*size, list_ptr+(i+1)*size, size)
+		}
+
+	}
+	for i := uintptr(0); i < max_len-max_len&3; i += 4 {
+		if order(unsafe.Pointer(list_ptr+i*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+			swap(list_ptr+i*size, list_ptr+(i+2)*size, size)
+		}
+		if order(unsafe.Pointer(list_ptr+(i+1)*size), unsafe.Pointer(list_ptr+(i+3)*size)) {
+			swap(list_ptr+(i+1)*size, list_ptr+(i+3)*size, size)
+		}
+		if order(unsafe.Pointer(list_ptr+(i+1)*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+			swap(list_ptr+(i+1)*size, list_ptr+(i+2)*size, size)
+		}
+
+	}
+	if max_len&3 == 3 {
+		i := max_len - 3
+		if order(unsafe.Pointer(list_ptr+i*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+			swap(list_ptr+(i+1)*size, list_ptr+(i+2)*size, size)
+			swap(list_ptr+(i)*size, list_ptr+(i+1)*size, size)
+		} else if order(unsafe.Pointer(list_ptr+(i+1)*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+			swap(list_ptr+(i+1)*size, list_ptr+(i+2)*size, size)
+		}
+	}
 	step = 1
-	for {
+	for step < max_len {
 		n++
 		step <<= 1
 		if n&1 == 1 {
@@ -89,13 +116,10 @@ func SortAny(list interface{}, order func(small, big unsafe.Pointer) bool) error
 
 			}
 		}
-		if step > max_len {
-			if n&1 == 1 {
 
-				reflect.Copy(reflect.ValueOf(list), tmp)
-			}
-			return nil
-		}
+	}
+	if n&1 == 1 {
+		reflect.Copy(reflect.ValueOf(list), tmp)
 	}
 	return nil
 }
@@ -117,4 +141,22 @@ func unsafeset(dst, src, size uintptr) {
 		}
 	}
 
+}
+func swap(dst, src, size uintptr) {
+	for size > 0 {
+		switch size & 7 {
+		case 0:
+			*(*uint64)(unsafe.Pointer(dst + size - 8)), *(*uint64)(unsafe.Pointer(src + size - 8)) = *(*uint64)(unsafe.Pointer(src + size - 8)), *(*uint64)(unsafe.Pointer(dst + size - 8))
+			size -= 8
+		case 7, 6, 5, 4:
+			*(*uint64)(unsafe.Pointer(dst + size - 4)), *(*uint64)(unsafe.Pointer(src + size - 4)) = *(*uint64)(unsafe.Pointer(src + size - 4)), *(*uint64)(unsafe.Pointer(dst + size - 4))
+			size -= 4
+		case 3, 2:
+			*(*uint64)(unsafe.Pointer(dst + size - 2)), *(*uint64)(unsafe.Pointer(src + size - 2)) = *(*uint64)(unsafe.Pointer(src + size - 2)), *(*uint64)(unsafe.Pointer(dst + size - 2))
+			size -= 2
+		case 1:
+			*(*uint64)(unsafe.Pointer(dst + size - 1)), *(*uint64)(unsafe.Pointer(src + size - 1)) = *(*uint64)(unsafe.Pointer(src + size - 1)), *(*uint64)(unsafe.Pointer(dst + size - 1))
+			size -= 1
+		}
+	}
 }
