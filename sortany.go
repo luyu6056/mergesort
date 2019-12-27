@@ -12,7 +12,7 @@ type SliceHeader struct {
 	Cap     int
 }
 
-func SortAny(list interface{}, order func(small, big unsafe.Pointer) bool) error {
+func SortAny(list interface{}, order func(i, j unsafe.Pointer) bool) error {
 	t := reflect.TypeOf(list)
 	if t.Kind() != reflect.Slice {
 		return errors.New("not a slice")
@@ -27,29 +27,29 @@ func SortAny(list interface{}, order func(small, big unsafe.Pointer) bool) error
 	list_ptr := list_sh.Dataptr
 	tmp_ptr := tmp.Pointer()
 	for i := uintptr(0); i < max_len-max_len&1; i += 2 {
-		if order(unsafe.Pointer(list_ptr+i*size), unsafe.Pointer(list_ptr+(i+1)*size)) {
+		if order(unsafe.Pointer(list_ptr+(i+1)*size), unsafe.Pointer(list_ptr+i*size)) {
 			swap(list_ptr+i*size, list_ptr+(i+1)*size, size)
 		}
 
 	}
 	for i := uintptr(0); i < max_len-max_len&3; i += 4 {
-		if order(unsafe.Pointer(list_ptr+i*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+		if order(unsafe.Pointer(list_ptr+(i+2)*size), unsafe.Pointer(list_ptr+i*size)) {
 			swap(list_ptr+i*size, list_ptr+(i+2)*size, size)
 		}
-		if order(unsafe.Pointer(list_ptr+(i+1)*size), unsafe.Pointer(list_ptr+(i+3)*size)) {
+		if order(unsafe.Pointer(list_ptr+(i+3)*size), unsafe.Pointer(list_ptr+(i+1)*size)) {
 			swap(list_ptr+(i+1)*size, list_ptr+(i+3)*size, size)
 		}
-		if order(unsafe.Pointer(list_ptr+(i+1)*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+		if order(unsafe.Pointer(list_ptr+(i+2)*size), unsafe.Pointer(list_ptr+(i+1)*size)) {
 			swap(list_ptr+(i+1)*size, list_ptr+(i+2)*size, size)
 		}
 
 	}
 	if max_len&3 == 3 {
 		i := max_len - 3
-		if order(unsafe.Pointer(list_ptr+i*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+		if order(unsafe.Pointer(list_ptr+(i+2)*size), unsafe.Pointer(list_ptr+i*size)) {
 			swap(list_ptr+(i+1)*size, list_ptr+(i+2)*size, size)
 			swap(list_ptr+(i)*size, list_ptr+(i+1)*size, size)
-		} else if order(unsafe.Pointer(list_ptr+(i+1)*size), unsafe.Pointer(list_ptr+(i+2)*size)) {
+		} else if order(unsafe.Pointer(list_ptr+(i+2)*size), unsafe.Pointer(list_ptr+(i+1)*size)) {
 			swap(list_ptr+(i+1)*size, list_ptr+(i+2)*size, size)
 		}
 	}
@@ -75,7 +75,7 @@ func SortAny(list interface{}, order func(small, big unsafe.Pointer) bool) error
 					case l == r_b:
 						unsafeset(tmp_ptr+index*size, list_ptr+r*size, size)
 						r++
-					case order(unsafe.Pointer(list_ptr+l*size), unsafe.Pointer(list_ptr+r*size)):
+					case order(unsafe.Pointer(list_ptr+r*size), unsafe.Pointer(list_ptr+l*size)):
 						unsafeset(tmp_ptr+index*size, list_ptr+r*size, size)
 						r++
 					default:
@@ -104,7 +104,7 @@ func SortAny(list interface{}, order func(small, big unsafe.Pointer) bool) error
 					case l == r_b:
 						unsafeset(list_ptr+index*size, tmp_ptr+r*size, size)
 						r++
-					case order(unsafe.Pointer(tmp_ptr+l*size), unsafe.Pointer(tmp_ptr+r*size)):
+					case order(unsafe.Pointer(tmp_ptr+r*size), unsafe.Pointer(tmp_ptr+l*size)):
 						unsafeset(list_ptr+index*size, tmp_ptr+r*size, size)
 						r++
 					default:
