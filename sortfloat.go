@@ -34,72 +34,51 @@ func SortFloat32(list []float32) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]float32, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (list[l] > list[r] || !isNaN32(list[l]) && isNaN32(list[r]))) {
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r] || !isNaN32(list[l]) && isNaN32(list[r]):
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (tmp[l] > tmp[r] || !isNaN32(tmp[l]) && isNaN32(tmp[r]))) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r] || !isNaN32(tmp[l]) && isNaN32(tmp[r]):
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
+
 	if n&1 == 1 {
 		copy(list, tmp)
 	}
@@ -133,69 +112,47 @@ func SortFloat32Desc(list []float32) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]float32, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (list[l] < list[r] || isNaN32(list[l]) && !isNaN32(list[r]))) {
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r] || isNaN32(list[l]) && !isNaN32(list[r]):
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (tmp[l] < tmp[r] || isNaN32(tmp[l]) && !isNaN32(tmp[r]))) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r] || isNaN32(tmp[l]) && !isNaN32(tmp[r]):
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -231,69 +188,47 @@ func SortFloat64(list []float64) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]float64, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (list[l] > list[r] || !isNaN64(list[l]) && isNaN64(list[r]))) {
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r] || !isNaN64(list[l]) && isNaN64(list[r]):
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (tmp[l] > tmp[r] || !isNaN64(tmp[l]) && isNaN64(tmp[r]))) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r] || !isNaN64(tmp[l]) && isNaN64(tmp[r]):
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -330,69 +265,47 @@ func SortFloat64Desc(list []float64) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]float64, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (list[l] < list[r] || isNaN64(list[l]) && !isNaN64(list[r]))) {
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r] || isNaN64(list[l]) && !isNaN64(list[r]):
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && (tmp[l] < tmp[r] || isNaN64(tmp[l]) && !isNaN64(tmp[r]))) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r] || isNaN64(tmp[l]) && !isNaN64(tmp[r]):
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}

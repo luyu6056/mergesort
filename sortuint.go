@@ -29,69 +29,47 @@ func SortUint(list []uint) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] > list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] > tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -129,69 +107,47 @@ func SortUintDesc(list []uint) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] < list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] < tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -228,69 +184,47 @@ func SortUint8(list []uint8) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint8, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] > list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] > tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -299,7 +233,7 @@ func SortUint8(list []uint8) {
 	}
 }
 
-func SortUintDesc8(list []uint8) {
+func SortUint8Desc(list []uint8) {
 	max_len := len(list)
 	for i := 0; i < max_len-max_len&1; i += 2 {
 		if list[i] < list[i+1] {
@@ -328,69 +262,47 @@ func SortUintDesc8(list []uint8) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint8, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] < list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] < tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -427,69 +339,47 @@ func SortUint16(list []uint16) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint16, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] > list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] > tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -498,7 +388,7 @@ func SortUint16(list []uint16) {
 	}
 }
 
-func SortUintDesc16(list []uint16) {
+func SortUint16Desc(list []uint16) {
 	max_len := len(list)
 	for i := 0; i < max_len-max_len&1; i += 2 {
 		if list[i] < list[i+1] {
@@ -527,69 +417,47 @@ func SortUintDesc16(list []uint16) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint16, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] < list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] < tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -626,69 +494,47 @@ func SortUint32(list []uint32) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint32, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] > list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] > tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -697,7 +543,7 @@ func SortUint32(list []uint32) {
 	}
 }
 
-func SortUintDesc32(list []uint32) {
+func SortUint32Desc(list []uint32) {
 	max_len := len(list)
 	for i := 0; i < max_len-max_len&1; i += 2 {
 		if list[i] < list[i+1] {
@@ -726,69 +572,47 @@ func SortUintDesc32(list []uint32) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint32, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] < list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] < tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -825,69 +649,47 @@ func SortUint64(list []uint64) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint64, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] > list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] > list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] > tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] > tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}
@@ -925,69 +727,47 @@ func SortUint64Desc(list []uint64) {
 			list[i+1], list[i+2] = list[i+2], list[i+1]
 		}
 	}
-	var step, l, max, r, r_b, index, n int
+	var step, l, max, r, index, n int
 	tmp := make([]uint64, max_len)
 	step = 4
 	for step < max_len {
-		n++
 		step <<= 1
+		n++
 		if n&1 == 1 {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						tmp[index] = list[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && list[l] < list[r]) {
 						tmp[index] = list[r]
 						r++
-					case list[l] < list[r]:
-						tmp[index] = list[r]
-						r++
-					default:
+					} else {
 						tmp[index] = list[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		} else {
 			for i := 0; i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						list[index] = tmp[l]
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && tmp[l] < tmp[r]) {
 						list[index] = tmp[r]
 						r++
-					case tmp[l] < tmp[r]:
-						list[index] = tmp[r]
-						r++
-					default:
+					} else {
 						list[index] = tmp[l]
 						l++
 					}
-					index++
 				}
-
 			}
 		}
 	}

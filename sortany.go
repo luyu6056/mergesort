@@ -21,7 +21,7 @@ func SortAny(list interface{}, order func(i, j unsafe.Pointer) bool) error {
 	size := truetype.Size()
 	p := (*[2]unsafe.Pointer)(unsafe.Pointer(&list))[1]
 	list_sh := (*SliceHeader)(p)
-	var step, l, max, r, r_b, index, n uintptr
+	var step, l, max, r, index, n uintptr
 	max_len := list_sh.Len
 	tmp := reflect.MakeSlice(t, int(max_len), int(max_len))
 	list_ptr := list_sh.Dataptr
@@ -58,63 +58,44 @@ func SortAny(list interface{}, order func(i, j unsafe.Pointer) bool) error {
 		n++
 		step <<= 1
 		if n&1 == 1 {
+
 			for i := uintptr(0); i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						unsafeset(tmp_ptr+index*size, list_ptr+l*size, size)
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && order(unsafe.Pointer(list_ptr+r*size), unsafe.Pointer(list_ptr+l*size))) {
 						unsafeset(tmp_ptr+index*size, list_ptr+r*size, size)
 						r++
-					case order(unsafe.Pointer(list_ptr+r*size), unsafe.Pointer(list_ptr+l*size)):
-						unsafeset(tmp_ptr+index*size, list_ptr+r*size, size)
-						r++
-					default:
+					} else {
 						unsafeset(tmp_ptr+index*size, list_ptr+l*size, size)
 						l++
 					}
-					index++
 				}
-
 			}
+
 		} else {
 			for i := uintptr(0); i < max_len; i += step {
 				l = i
 				max = i + step
-				r = (max-l)/2 + l
-				r_b = r
+				r = step/2 + l
 				if max > max_len {
 					max = max_len
 				}
-				index = i
-				for index < max {
-					switch {
-					case r >= max:
-						unsafeset(list_ptr+index*size, tmp_ptr+l*size, size)
-						l++
-					case l == r_b:
+				for index = i; index < max; index++ {
+					if l == step/2+i || (r < max && order(unsafe.Pointer(tmp_ptr+r*size), unsafe.Pointer(tmp_ptr+l*size))) {
 						unsafeset(list_ptr+index*size, tmp_ptr+r*size, size)
 						r++
-					case order(unsafe.Pointer(tmp_ptr+r*size), unsafe.Pointer(tmp_ptr+l*size)):
-						unsafeset(list_ptr+index*size, tmp_ptr+r*size, size)
-						r++
-					default:
+					} else {
 						unsafeset(list_ptr+index*size, tmp_ptr+l*size, size)
 						l++
 					}
-					index++
 				}
-
 			}
+
 		}
 
 	}
